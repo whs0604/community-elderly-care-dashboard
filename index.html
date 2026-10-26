@@ -21,7 +21,6 @@
         max-height: 98vh;
         object-fit: contain;
       }
-      /* 隐藏vue挂载节点，暂时不用 */
       #app {
         display: none;
       }
@@ -30,6 +29,7 @@
   <body>
     <img class="preview-img" src="./preview.jpg" alt="社区养老大屏截图">
     <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <!-- 注释掉vue入口脚本，避免加载报错，需要交互大屏时再取消注释 -->
+    <!-- <script type="module" src="./src/main.js"></script> -->
   </body>
 </html>
