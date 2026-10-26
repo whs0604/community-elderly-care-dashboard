@@ -1,0 +1,401 @@
+/* ============================================
+   社区养老服务与健康监测可视化系统 · 全局样式
+   深色科技风大屏，以 1920x1080 为设计稿
+   ============================================ */
+
+:root {
+  --bg-0: #070d1c;
+  --bg-1: #0a1122;
+  --panel-bg: rgba(15, 32, 60, 0.85);
+  --panel-bg-2: rgba(8, 16, 36, 0.85);
+  --border: rgba(0, 212, 255, 0.18);
+  --accent: #00d4ff;
+  --text-1: #eaf6ff;
+  --text-2: #cfe6ff;
+  --text-3: #8fa6c8;
+  --danger: #ff4d4f;
+  --warn: #ffd166;
+  --ok: #4de3a5;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  background: radial-gradient(ellipse at 50% 0%, #0d1b36 0%, var(--bg-0) 55%);
+  color: var(--text-2);
+  font-size: 14px;
+}
+
+/* ---------- 大屏缩放容器 ---------- */
+.screen-wrap {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.screen {
+  width: 1920px;
+  height: 1080px;
+  flex: none;
+  /* 以中心为缩放锚点：配合外层 flex 居中，缩放后恰好填满可视区，
+     避免 transform-origin:0 0 时大窗口/高 DPI 下内容被裁到视口外 */
+  transform-origin: center center;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(ellipse at 50% 0%, #0d1b36 0%, var(--bg-0) 60%);
+}
+
+/* ---------- 顶部标题栏 ---------- */
+.screen-header {
+  height: 60px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: linear-gradient(180deg, rgba(10, 25, 50, 0.92), rgba(8, 16, 36, 0.6));
+  border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+  position: relative;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.alarm-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #35507a;
+  transition: background 0.3s;
+}
+
+.alarm-dot.on {
+  background: var(--danger);
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--danger); }
+  50% { opacity: 0.35; box-shadow: 0 0 14px var(--danger); }
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #8fe8ff, #00d4ff, #4d8cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.range-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.range-tab {
+  padding: 4px 18px;
+  border-radius: 14px;
+  font-size: 13px;
+  color: var(--text-3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  background: transparent;
+  font-family: inherit;
+  transition: all 0.25s;
+}
+
+.range-tab:hover {
+  color: var(--text-2);
+  border-color: rgba(0, 212, 255, 0.5);
+}
+
+.range-tab.active {
+  color: #03111f;
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.focus-tag {
+  font-size: 12px;
+  color: var(--warn);
+  border: 1px solid rgba(255, 209, 102, 0.4);
+  padding: 2px 10px;
+  border-radius: 12px;
+  max-width: 340px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.update-time {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.header-time {
+  font-size: 14px;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 主体三列 ---------- */
+.main-grid {
+  display: grid;
+  grid-template-columns: 24% 1fr 24%;
+  gap: 12px;
+  padding: 10px 14px;
+  height: calc(100% - 280px); /* 60 头部 + 220 底部 */
+  flex: none;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.h-280 { height: 280px; }
+.h-190 { height: 190px; }
+.h-300 { height: 300px; }
+.h-250 { height: 250px; }
+.h-96  { height: 96px; }
+
+.flex-1 {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---------- 面板卡片 ---------- */
+.panel-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--panel-bg), var(--panel-bg-2));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.panel-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent, #00d4ff), transparent 70%);
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  font-size: 15px;
+  color: var(--text-1);
+  font-weight: 600;
+  flex: none;
+}
+
+.panel-title i {
+  width: 4px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--accent, #00d4ff);
+}
+
+.panel-body {
+  flex: 1;
+  min-height: 0;
+  padding: 4px 12px 12px;
+}
+
+.chart-tabs {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.mini-tab {
+  font-size: 12px;
+  padding: 2px 12px;
+  border-radius: 10px;
+  color: var(--text-3);
+  border: 1px solid transparent;
+  cursor: pointer;
+  background: transparent;
+  font-family: inherit;
+}
+
+.mini-tab.active {
+  color: var(--accent);
+  border-color: rgba(0, 212, 255, 0.4);
+}
+
+/* ---------- 中列：统计卡 + 图表行 ---------- */
+.stats-row {
+  display: flex;
+  gap: 12px;
+}
+
+.stat-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px solid rgba(0, 212, 255, 0.18);
+  border-radius: 8px;
+  padding: 10px 16px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--c, var(--accent));
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-value small {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-3);
+  margin-left: 5px;
+}
+
+.pie-row {
+  display: flex;
+  gap: 12px;
+}
+
+.pie-row .panel-card {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------- 左列：体征仪表行 ---------- */
+.gauge-row {
+  display: flex;
+  gap: 12px;
+  height: 100%;
+}
+
+.gauge-item {
+  width: 42%;
+  height: 100%;
+}
+
+.gauge-item.wide {
+  width: 58%;
+}
+
+/* ---------- 底部：词云 + 滚动播报 ---------- */
+.footer-row {
+  display: flex;
+  gap: 12px;
+  padding: 0 14px;
+  height: 220px;
+  flex: none;
+}
+
+.footer-row .panel-card:first-child {
+  width: 58%;
+}
+
+.footer-row .panel-card:last-child {
+  flex: 1;
+}
+
+.marquee {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;
+  flex-direction: column;
+  animation: marqueeY 20s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeY {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 36px;
+  font-size: 13px;
+  color: var(--text-2);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.mq-time { color: var(--text-3); font-variant-numeric: tabular-nums; }
+
+.mq-type {
+  padding: 1px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  flex: none;
+}
+
+.mq-type.lv-一般 { background: rgba(255, 255, 255, 0.1); color: var(--text-2); }
+.mq-type.lv-紧急 { background: rgba(255, 209, 102, 0.15); color: var(--warn); }
+.mq-type.lv-危急 { background: rgba(255, 77, 79, 0.18); color: #ff7875; }
+
+.mq-text { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+
+.mq-status { color: var(--text-3); flex: none; }
+
+.mq-status.done { color: var(--ok); }
