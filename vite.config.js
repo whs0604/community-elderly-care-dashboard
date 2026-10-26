@@ -2,8 +2,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
 
-// Vite 配置：@ 别名 + Vue 插件
+// Vite 配置：@ 别名 + Vue 插件 + Github Pages部署base路径
 export default defineConfig({
+  base: '/community-elderly-care-dashboard/',
   plugins: [vue()],
   resolve: {
     alias: {
